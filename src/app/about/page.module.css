@@ -1,0 +1,145 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  border-radius: 1rem;
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: #2d3436;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #040450;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.story, .mission, .team {
+  margin-bottom: 4rem;
+}
+
+.story h2, .mission h2, .team h2 {
+  font-size: 2rem;
+  color: #2d3436;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.story p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #2d3436;
+  margin-bottom: 1.5rem;
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.valueCard {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.valueCard:hover {
+  transform: translateY(-5px);
+}
+
+.valueCard h3 {
+  color: #2d3436;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.valueCard p {
+  color: #636e72;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.teamMember {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.placeholderImage {
+  width: 150px;
+  height: 150px;
+  background: #e9ecef;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+}
+
+.memberImage {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  object-fit: cover;
+  border: 3px solid #0984e3;
+}
+
+.teamMember h3 {
+  color: #2d3436;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.role {
+  color: #0984e3;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.teamMember p {
+  color: #636e72;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .hero {
+    padding: 2rem 0;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .values, .teamGrid {
+    grid-template-columns: 1fr;
+  }
+} 
