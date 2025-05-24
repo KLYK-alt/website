@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import ScrollReveal from '../components/ScrollReveal';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../integrations/supabase/client';
+import Image from 'next/image';
 
 export default function AboutPage() {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -100,21 +101,23 @@ export default function AboutPage() {
           ) : (
             teamMembers.map((member, index) => (
               <ScrollReveal key={member.id} delay={index * 100}>
-            <div className={styles.teamMember}>
+                <div className={styles.teamMember}>
                   {member.image_url ? (
-                    <img 
+                    <Image 
                       src={member.image_url} 
                       alt={member.name} 
                       className={styles.memberImage}
+                      width={200}
+                      height={200}
                     />
                   ) : (
-              <div className={styles.placeholderImage}></div>
+                    <div className={styles.placeholderImage}></div>
                   )}
                   <h3>{member.name}</h3>
                   <p className={styles.role}>{member.designation}</p>
                   {member.bio && <p>{member.bio}</p>}
-            </div>
-          </ScrollReveal>
+                </div>
+              </ScrollReveal>
             ))
           )}
         </div>

@@ -7,9 +7,4 @@ export const dynamicImport = (importFn, options = {}) => {
     ssr: options.ssr ?? false,
     ...options
   });
-};
-
-// Common loading component
-export const LoadingPlaceholder = () => (
-  <div className="animate-pulse bg-gray-200 rounded-lg h-full w-full" />
-); 
+}; 

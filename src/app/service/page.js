@@ -14,7 +14,7 @@ export default function ServicePage() {
           <p className={styles.subtitle}>High-Impact EV Training Content – From Concept to Classroom</p>
           <p className={styles.description}>
             We create and deliver engaging, industry-relevant training content tailored for the fast-evolving Electric Vehicle (EV) technology. 
-            Whether you're a training institute, corporate team, or educational platform, we help you upskill your audience with modern, 
+            Whether you&apos;re a training institute, corporate team, or educational platform, we help you upskill your audience with modern, 
             expertly crafted material.
           </p>
         </section>

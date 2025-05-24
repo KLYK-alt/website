@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import styles from './page.module.css';
 import ScrollReveal from '../../components/ScrollReveal';
 import { supabase } from '../../../integrations/supabase/client';
+import Image from 'next/image';
 
 export default function BlogPost() {
   const { id } = useParams();
@@ -77,7 +78,13 @@ export default function BlogPost() {
         <article className={styles.blogPost}>
           {post.image_url && (
             <div className={styles.heroImage}>
-              <img src={post.image_url} alt={post.title} />
+              <Image 
+                src={post.image_url} 
+                alt={post.title}
+                width={800}
+                height={400}
+                priority
+              />
             </div>
           )}
           <div className={styles.content}>

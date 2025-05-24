@@ -5,6 +5,7 @@ import styles from './page.module.css';
 import CountUp from '../components/CountUp';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../../integrations/supabase/client';
+import Image from 'next/image';
 
 export default function TestimonialsPage() {
   const [statistics, setStatistics] = useState(null);
@@ -125,10 +126,12 @@ export default function TestimonialsPage() {
                   <p className={styles.testimonialText}>{testimonial.content}</p>
               <div className={styles.testimonialAuthor}>
                     {testimonial.image_url ? (
-                      <img 
+                      <Image 
                         src={testimonial.image_url} 
                         alt={testimonial.name} 
                         className={styles.authorImage}
+                        width={50}
+                        height={50}
                       />
                     ) : (
                 <div className={styles.authorImage}></div>
@@ -165,10 +168,12 @@ export default function TestimonialsPage() {
               <ScrollReveal key={partner.id} delay={index * 200}>
             <div className={styles.logoCard}>
                   {partner.logo_url ? (
-              <img 
+              <Image 
                       src={partner.logo_url} 
                       alt={partner.name} 
                 className={styles.logoImage}
+                width={150}
+                height={75}
               />
                   ) : (
                     <div className={styles.placeholderLogo}></div>

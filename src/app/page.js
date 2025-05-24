@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import ScrollReveal from './components/ScrollReveal';
@@ -192,10 +193,13 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <img
+            <Image
               src="/images/home.png"
               alt="EV Technology Training"
               className={styles.heroImage}
+              width={500}
+              height={300}
+              priority
             />
           </motion.div>
         </section>
@@ -402,7 +406,12 @@ export default function Home() {
                   <div key={training.id} className={styles.trainingItem}>
                     {training.image_url && (
                       <div className={styles.trainingImage}>
-                        <img src={training.image_url} alt={training.title} />
+                        <Image 
+                          src={training.image_url} 
+                          alt={training.title}
+                          width={300}
+                          height={200}
+                        />
                       </div>
                     )}
                     <div className={styles.trainingDetails}>
