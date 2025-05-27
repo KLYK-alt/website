@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import styles from './page.module.css';
 import { supabase } from '../../integrations/supabase/client';
 
@@ -12,47 +14,63 @@ const ScrollReveal = dynamic(() => import('../components/ScrollReveal'), {
 });
 
 // Separate form component for better organization
-const ContactForm = ({ onSubmit, isSubmitting, formStatus }) => (
-  <form className={styles.contactForm} onSubmit={onSubmit}>
-    <div className={styles.formGroup}>
-      <input type="text" name="name" placeholder="Your Name" required />
-    </div>
-    
-    <div className={styles.formGroup}>
-      <input type="email" name="email" placeholder="Your Email" required />
-    </div>
-    
-    <div className={styles.formGroup}>
-      <input type="tel" name="phone_number" placeholder="Your Phone" required />
-    </div>
-    
-    <div className={styles.formGroup}>
-      <input type="text" name="address" placeholder="Your Address" required />
-    </div>
-    
-    <div className={styles.formGroup}>
-      <select name="req_type" required>
-        <option value="">Select Your Interest</option>
-        <option value="service_request">Service Request</option>
-        <option value="class_registration">Class Registration</option>
-        <option value="collaboration">Collaboration</option>
-        <option value="custom_program">Custom Program</option>
-      </select>
-    </div>
+const ContactForm = ({ onSubmit, isSubmitting, formStatus }) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
 
-    <div className={styles.formGroup}>
-      <textarea name="message" placeholder="Describe your query" rows="4" required></textarea>
-    </div>
+  return (
+    <form className={styles.contactForm} onSubmit={onSubmit}>
+      <div className={styles.formGroup}>
+        <input type="text" name="name" placeholder="Your Name" required />
+      </div>
+      
+      <div className={styles.formGroup}>
+        <input type="email" name="email" placeholder="Your Email" required />
+      </div>
+      
+      <div className={styles.formGroup}>
+        <PhoneInput
+          country={'in'}
+          value={phoneNumber}
+          onChange={phone => setPhoneNumber(phone)}
+          inputProps={{
+            name: 'phone_number',
+            required: true,
+            placeholder: 'Enter phone number',
+          }}
+          containerClass={styles.phoneInputContainer}
+          inputClass={styles.phoneInput}
+          buttonClass={styles.phoneInputButton}
+        />
+      </div>
+      
+      <div className={styles.formGroup}>
+        <input type="text" name="address" placeholder="Your Address" required />
+      </div>
+      
+      <div className={styles.formGroup}>
+        <select name="req_type" required>
+          <option value="">Select Your Interest</option>
+          <option value="service_request">Service Request</option>
+          <option value="class_registration">Class Registration</option>
+          <option value="collaboration">Collaboration</option>
+          <option value="custom_program">Custom Program</option>
+        </select>
+      </div>
 
-    <button 
-      type="submit" 
-      className={styles.submitButton}
-      disabled={isSubmitting}
-    >
-      {isSubmitting ? 'Sending...' : 'Register Your Interest'}
-    </button>
-  </form>
-);
+      <div className={styles.formGroup}>
+        <textarea name="message" placeholder="Describe your query" rows="4" required></textarea>
+      </div>
+
+      <button 
+        type="submit" 
+        className={styles.submitButton}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Sending...' : 'Register Your Interest'}
+      </button>
+    </form>
+  );
+};
 
 // Separate contact info component
 const ContactInfo = ({ contactInfo, isLoading }) => (
@@ -66,10 +84,6 @@ const ContactInfo = ({ contactInfo, isLoading }) => (
         <div className={styles.contactItem}>
           <i className="bi bi-envelope" aria-hidden="true"></i>
           <span>{contactInfo.email || 'Email not available'}</span>
-        </div>
-        <div className={styles.contactItem}>
-          <i className="bi bi-telephone" aria-hidden="true"></i>
-          <span>{contactInfo.phone_number || 'Phone not available'}</span>
         </div>
         <div className={styles.contactItem}>
           <i className="bi bi-geo-alt" aria-hidden="true"></i>
@@ -125,8 +139,8 @@ export default function WhyUsPage() {
       } else {
         // Set default values if no data exists
         setContactInfo({
-          email: 'contact@klyk.com',
-          phone_number: '+91 1234567890',
+          email: 'klyktechnosolutions@gmail.com',
+          phone_number: '+91 ',
           address: 'KLYK Techno Solutions, India'
         });
       }

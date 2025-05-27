@@ -7,4 +7,4 @@ export const dynamicImport = (importFn, options = {}) => {
     ssr: options.ssr ?? false,
     ...options
   });
-}; 
+};

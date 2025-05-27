@@ -63,10 +63,6 @@ export default function Footer() {
                 <span>KLYK Techno Solutions, India</span>
               </li>
               <li>
-                <i className="bi bi-telephone" aria-hidden="true"></i>
-                <span>+91 1234567890</span>
-              </li>
-              <li>
                 <i className="bi bi-envelope" aria-hidden="true"></i>
                 <span>contact@klyk.com</span>
               </li>

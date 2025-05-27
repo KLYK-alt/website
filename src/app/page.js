@@ -435,9 +435,7 @@ export default function Home() {
                       </div>
                       {training.registration_link && (
                         <a 
-                          href={training.registration_link} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
+                          href={`/register/${training.id}`}
                           className={styles.registerButton}
                         >
                           Register Now
