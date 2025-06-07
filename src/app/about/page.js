@@ -8,26 +8,48 @@ import Image from 'next/image';
 
 export default function AboutPage() {
   const [teamMembers, setTeamMembers] = useState([]);
+  const [missionVision, setMissionVision] = useState({
+    missions: [],
+    visions: [],
+    story: null
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTeamMembers = async () => {
+    const fetchData = async () => {
       try {
-        const { data, error } = await supabase
+        // Fetch team members
+        const { data: teamData, error: teamError } = await supabase
           .from('team_members')
           .select('*')
           .order('created_at', { ascending: true });
 
-        if (error) throw error;
-        setTeamMembers(data || []);
+        if (teamError) throw teamError;
+        setTeamMembers(teamData || []);
+
+        // Fetch mission, vision, and story
+        const { data: mvData, error: mvError } = await supabase
+          .from('mission_vision')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (mvError) throw mvError;
+
+        // Organize mission, vision, and story data
+        const mv = {
+          missions: mvData?.filter(item => item.type === 'mission') || [],
+          visions: mvData?.filter(item => item.type === 'vision') || [],
+          story: mvData?.find(item => item.type === 'story') || null
+        };
+        setMissionVision(mv);
       } catch (error) {
-        console.error('Error fetching team members:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTeamMembers();
+    fetchData();
   }, []);
 
   return (
@@ -43,51 +65,87 @@ export default function AboutPage() {
         <ScrollReveal>
           <h2>Our Story</h2>
         </ScrollReveal>
-        <ScrollReveal delay={100}>
-          <p>
-            Founded with a vision to bridge the gap between theoretical knowledge and practical skills in electric vehicle technology, 
-            we have grown into a leading provider of specialized training content. Our journey began with a simple yet powerful mission: 
-            to make high-quality EV technology education accessible to everyone.
-          </p>
-        </ScrollReveal>
-        <ScrollReveal delay={200}>
-          <p>
-            Today, we specialize in crafting and delivering high-impact training content designed for both online and offline platforms, 
-            focusing on real-world electrical vehicle technology skills. Our comprehensive curriculum covers everything from basic 
-            maintenance to advanced diagnostic procedures, ensuring that our students are well-equipped for the evolving automotive industry.
-          </p>
-        </ScrollReveal>
+        {loading ? (
+          <div className={styles.storyContent}>
+            <p>Loading our story...</p>
+          </div>
+        ) : !missionVision.story ? (
+          <>
+            <ScrollReveal delay={100}>
+              <p>
+                Founded with a vision to bridge the gap between theoretical knowledge and practical skills in electric vehicle technology, 
+                we have grown into a leading provider of specialized training content. Our journey began with a simple yet powerful mission: 
+                to make high-quality EV technology education accessible to everyone.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={200}>
+              <p>
+                Today, we specialize in crafting and delivering high-impact training content designed for both online and offline platforms, 
+                focusing on real-world electrical vehicle technology skills. Our comprehensive curriculum covers everything from basic 
+                maintenance to advanced diagnostic procedures, ensuring that our students are well-equipped for the evolving automotive industry.
+              </p>
+            </ScrollReveal>
+          </>
+        ) : (
+          <ScrollReveal delay={100}>
+            <p>{missionVision.story.content}</p>
+          </ScrollReveal>
+        )}
       </section>
 
       <section className={styles.mission}>
         <ScrollReveal>
-          <h2>Mission and Values</h2>
+          <h2>Our Missions</h2>
         </ScrollReveal>
         <div className={styles.values}>
-          <ScrollReveal delay={0}>
+          {loading ? (
             <div className={styles.valueCard}>
-              <h3>Excellence</h3>
-              <p>We are committed to delivering the highest quality training content that meets industry standards and exceeds expectations.</p>
+              <h3>Loading...</h3>
+              <p>Loading mission content...</p>
             </div>
-          </ScrollReveal>
-          <ScrollReveal delay={100}>
+          ) : missionVision.missions.length === 0 ? (
             <div className={styles.valueCard}>
-              <h3>Innovation</h3>
-              <p>We continuously evolve our teaching methods and content to stay at the forefront of EV technology education.</p>
+              <h3>Our Mission</h3>
+              <p>To empower professionals with cutting-edge EV technology training through live, interactive sessions.</p>
             </div>
-          </ScrollReveal>
-          <ScrollReveal delay={200}>
+          ) : (
+            missionVision.missions.map((mission, index) => (
+              <ScrollReveal key={mission.id} delay={index * 100}>
+                <div className={styles.valueCard}>
+                  <h3>{mission.title}</h3>
+                  <p>{mission.content}</p>
+                </div>
+              </ScrollReveal>
+            ))
+          )}
+        </div>
+      </section>
+
+      <section className={styles.mission}>
+        <ScrollReveal>
+          <h2>Our Visions</h2>
+        </ScrollReveal>
+        <div className={styles.values}>
+          {loading ? (
             <div className={styles.valueCard}>
-              <h3>Accessibility</h3>
-              <p>We believe in making quality education accessible to everyone, regardless of their background or location.</p>
+              <h3>Loading...</h3>
+              <p>Loading vision content...</p>
             </div>
-          </ScrollReveal>
-          <ScrollReveal delay={300}>
+          ) : missionVision.visions.length === 0 ? (
             <div className={styles.valueCard}>
-              <h3>Practical Learning</h3>
-              <p>We emphasize hands-on experience and real-world applications in all our training programs.</p>
+              <h3>Our Vision</h3>
+              <p>To be the global leader in EV technology education, shaping the future of sustainable transportation.</p>
             </div>
-          </ScrollReveal>
+          ) : (
+            missionVision.visions.map((vision, index) => (
+              <ScrollReveal key={vision.id} delay={index * 100}>
+                <div className={styles.valueCard}>
+                  <h3>{vision.title}</h3>
+                  <p>{vision.content}</p>
+                </div>
+              </ScrollReveal>
+            ))
+          )}
         </div>
       </section>
 
@@ -101,7 +159,7 @@ export default function AboutPage() {
           ) : (
             teamMembers.map((member, index) => (
               <ScrollReveal key={member.id} delay={index * 100}>
-            <div className={styles.teamMember}>
+                <div className={styles.teamMember}>
                   {member.image_url ? (
                     <Image 
                       src={member.image_url} 
@@ -111,13 +169,13 @@ export default function AboutPage() {
                       height={200}
                     />
                   ) : (
-              <div className={styles.placeholderImage}></div>
+                    <div className={styles.placeholderImage}></div>
                   )}
                   <h3>{member.name}</h3>
                   <p className={styles.role}>{member.designation}</p>
                   {member.bio && <p>{member.bio}</p>}
-            </div>
-          </ScrollReveal>
+                </div>
+              </ScrollReveal>
             ))
           )}
         </div>

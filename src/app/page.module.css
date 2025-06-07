@@ -1,5 +1,9 @@
 .page {
   --gray-rgb: 0, 0, 0;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 241, 245, 249;
+  background: #FCF5EE;
+  min-height: 100vh;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
 
@@ -10,7 +14,6 @@
   grid-template-rows: 20px 1fr 20px;
   align-items: center;
   justify-items: center;
-  min-height: 100svh;
   padding: 80px;
   gap: 64px;
   font-family: var(--font-geist-sans);
@@ -175,7 +178,7 @@ a.secondary {
   align-items: center;
   justify-content: center;
   padding: 6rem 2rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: transparent;
   min-height: 80vh;
   gap: 3rem;
 }
@@ -204,14 +207,17 @@ a.secondary {
 }
 
 .headline {
+  font-family: var(--font-heading);
   font-size: 3.5rem;
   font-weight: 700;
   color: #2d3436;
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .tagline {
+  font-family: var(--font-body);
   font-size: 1.5rem;
   color: #636e72;
   margin-bottom: 2rem;
@@ -412,7 +418,7 @@ a.secondary {
 .trustSection {
   padding: 4rem 2rem;
   text-align: center;
-  background: white;
+  background: transparent;
 }
 
 .trustSection h2 {
@@ -467,7 +473,7 @@ a.secondary {
 .newsSection {
   position: relative;
   padding: 4rem 2rem;
-  background: #f8f9fa;
+  background: transparent;
   z-index: 1;
   overflow: hidden;
 }
@@ -571,19 +577,35 @@ a.secondary {
 /* Portfolio Section */
 .portfolioSection {
   padding: 4rem 2rem;
-  background: white;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
 }
 
 .portfolioSection h2 {
+  font-family: var(--font-heading);
   font-size: 2.5rem;
+  font-weight: 600;
   color: #2d3436;
+  margin-bottom: 2rem;
   text-align: center;
-  margin-bottom: 3rem;
+  letter-spacing: -0.01em;
+}
+
+.sectionDescription {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #636e72;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
 }
 
 .portfolioGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -593,18 +615,12 @@ a.secondary {
   position: relative;
   border-radius: 15px;
   overflow: hidden;
-  aspect-ratio: 3/2;
-  background: #f8f9fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #ffffff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-}
-
-.portfolioItem:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .portfolioIcon {
@@ -616,17 +632,79 @@ a.secondary {
   align-items: center;
   justify-content: center;
   color: white;
+  margin: 2rem auto 1.5rem;
   box-shadow: 0 4px 10px rgba(9, 132, 227, 0.3);
   transition: all 0.3s ease;
 }
 
-.portfolioItem:hover .portfolioIcon {
-  transform: scale(1.1);
-  box-shadow: 0 6px 15px rgba(9, 132, 227, 0.4);
-}
-
 .portfolioIcon i {
   font-size: 2rem;
+}
+
+.portfolioContent {
+  padding: 0 2rem 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolioContent h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #2d3436;
+  margin-bottom: 1rem;
+}
+
+.portfolioContent p,
+.trainingContent p,
+.blogContent p,
+.faqAnswerList p,
+.sectionDescription,
+.description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #636e72;
+  margin-bottom: 1rem;
+}
+
+.portfolioContent p:last-child,
+.trainingContent p:last-child,
+.blogContent p:last-child,
+.faqAnswerList p:last-child {
+  margin-bottom: 0;
+}
+
+.sectionDescription {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.description {
+  color: #b2bec3;
+  margin-bottom: 1.5rem;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.featureList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2d3436;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+}
+
+.featureList i {
+  color: #0984e3;
+  font-size: 1rem;
 }
 
 .portfolioOverlay {
@@ -635,29 +713,64 @@ a.secondary {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(9, 132, 227, 0.9);
+  background: rgba(9, 132, 227, 0.95);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   opacity: 0;
   transition: opacity 0.3s ease;
-  color: white;
+  padding: 2rem;
   text-align: center;
-  padding: 1rem;
+  color: white;
 }
 
 .portfolioItem:hover .portfolioOverlay {
   opacity: 1;
 }
 
+.portfolioOverlay h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.portfolioOverlay p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.learnMoreBtn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .portfolioSection {
+    padding: 3rem 1rem;
+  }
+
+  .portfolioSection h2 {
+    font-size: 2rem;
+  }
+
+  .portfolioGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolioContent {
+    padding: 0 1.5rem 1.5rem;
+  }
+}
+
 /* FAQ Section */
 .faqSection {
   position: relative;
   padding: 4rem 2rem;
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 2rem;
+  margin: 2rem 0;
   z-index: 1;
   overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
 }
 
 .faqSection::before {
@@ -684,7 +797,9 @@ a.secondary {
 }
 
 .faqSection h2 {
+  font-family: var(--font-heading);
   font-size: 2.5rem;
+  font-weight: 600;
   color: #2d3436;
   text-align: center;
   margin-bottom: 2rem;
@@ -729,12 +844,15 @@ a.secondary {
   font-size: 1.25rem;
   color: #0984e3;
   margin-left: 1rem;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease-in-out;
 }
 
 .faqAnswerList {
   padding: 0 0 1.25rem 0;
-  animation: fadeInFaq 0.3s;
+  animation: fadeInFaq 0.3s ease-in-out;
+  overflow: hidden;
+  max-height: 500px;
+  transition: max-height 0.3s ease-in-out;
 }
 
 .faqAnswerList p {
@@ -744,9 +862,34 @@ a.secondary {
   line-height: 1.6;
 }
 
+.faqQuestionBtn[aria-expanded="true"] .faqIcon {
+  transform: rotate(180deg);
+}
+
+.loading {
+  color: #636e72;
+  font-size: 1rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.noFaqs {
+  color: #636e72;
+  font-size: 1rem;
+  text-align: center;
+  padding: 1rem 0;
+  font-style: italic;
+}
+
 @keyframes fadeInFaq {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive Design */
@@ -805,7 +948,7 @@ a.secondary {
 /* Blog Section Styles */
 .blogSection {
   padding: 4rem 2rem;
-  background-color: var(--background-secondary);
+  background-color: transparent;
 }
 
 .blogSection h2 {
@@ -884,22 +1027,16 @@ a.secondary {
 /* Training Programs Section */
 .trainingSection {
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: transparent;
   text-align: center;
 }
 
 .trainingSection h2 {
+  font-family: var(--font-heading);
   font-size: 2.5rem;
+  font-weight: 600;
   color: #2d3436;
   margin-bottom: 1rem;
-}
-
-.sectionDescription {
-  color: #636e72;
-  font-size: 1.1rem;
-  max-width: 800px;
-  margin: 0 auto 3rem;
-  line-height: 1.6;
 }
 
 .trainingCard {
@@ -950,7 +1087,9 @@ a.secondary {
 }
 
 .trainingContent h3 {
+  font-family: var(--font-heading);
   font-size: 1.5rem;
+  font-weight: 500;
   color: #2d3436;
   margin-bottom: 1rem;
 }
@@ -1158,4 +1297,171 @@ a.secondary {
   background: #cccccc;
   cursor: not-allowed;
   transform: none !important;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  font-family: var(--font-geist-sans);
+  background: transparent;
+}
+
+/* Responsive container widths */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+/* Hero section responsiveness */
+.heroSection {
+  min-height: 80vh;
+  gap: 3rem;
+  padding: 4rem 2rem;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.heroDescription {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Portfolio section responsiveness */
+.portfolioSection {
+  padding: 4rem 2rem;
+}
+
+.portfolioGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* FAQ section responsiveness */
+.faqSection {
+  padding: 4rem 2rem;
+}
+
+.faqList {
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Training section responsiveness */
+.trainingSection {
+  padding: 4rem 2rem;
+}
+
+.trainingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Section titles and descriptions */
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+}
+
+.sectionDescription {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+    gap: 32px;
+  }
+
+  .heroSection,
+  .portfolioSection,
+  .faqSection,
+  .trainingSection {
+    padding: 3rem 1rem;
+  }
+
+  .portfolioGrid,
+  .trainingGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ensure images are responsive */
+.portfolioItem img,
+.trainingCard img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Make buttons responsive */
+.ctaButton {
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+}
+
+.portfolioSection h2,
+.faqSection h2,
+.trainingSection h2,
+.blogSection h2 {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2d3436;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.portfolioContent h3,
+.trainingContent h3,
+.blogContent h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #2d3436;
+  margin-bottom: 1rem;
+}
+
+.ctaBtn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.1rem;
 }

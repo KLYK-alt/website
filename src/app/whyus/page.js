@@ -72,28 +72,6 @@ const ContactForm = ({ onSubmit, isSubmitting, formStatus }) => {
   );
 };
 
-// Separate contact info component
-const ContactInfo = ({ contactInfo, isLoading }) => (
-  <div className={styles.contactInfo}>
-    {isLoading ? (
-      <div className={styles.contactItem}>
-        <span>Loading contact information...</span>
-      </div>
-    ) : (
-      <>
-        <div className={styles.contactItem}>
-          <i className="bi bi-envelope" aria-hidden="true"></i>
-          <span>{contactInfo.email || 'Email not available'}</span>
-        </div>
-        <div className={styles.contactItem}>
-          <i className="bi bi-geo-alt" aria-hidden="true"></i>
-          <span>{contactInfo.address || 'Address not available'}</span>
-        </div>
-      </>
-    )}
-  </div>
-);
-
 // Feature card component for better code organization
 const FeatureCard = ({ icon, title, description, delay }) => (
   <Suspense fallback={<div className={styles.loadingPlaceholder}>Loading...</div>}>
@@ -112,84 +90,12 @@ const FeatureCard = ({ icon, title, description, delay }) => (
 export default function WhyUsPage() {
   const [formStatus, setFormStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [contactInfo, setContactInfo] = useState({ email: '', phone_number: '', address: '' });
   const [isLoading, setIsLoading] = useState(true);
 
-  // Memoize the fetch function
-  const fetchContactInfo = useCallback(async () => {
-    try {
-      const { data, error } = await supabase
-        .from('contact_us')
-        .select()
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-      if (error) {
-        console.error('Error fetching contact info:', error);
-        return;
-      }
-
-      if (data) {
-        setContactInfo({
-          email: data.email || '',
-          phone_number: data.phone_number || '',
-          address: data.address || ''
-        });
-      } else {
-        // Set default values if no data exists
-        setContactInfo({
-          email: 'klyktechnosolutions@gmail.com',
-          phone_number: '+91 ',
-          address: 'KLYK Techno Solutions, India'
-        });
-      }
-    } catch (error) {
-      console.error('Error in fetchContactInfo:', error);
-      // Set default values on error
-      setContactInfo({
-        email: 'contact@klyk.com',
-        phone_number: '+91 1234567890',
-        address: 'KLYK Techno Solutions, India'
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  useEffect(() => {
+    setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    // Initial fetch
-    fetchContactInfo();
-
-    // Set up realtime subscription
-    const subscription = supabase
-      .channel('contact_us_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'contact_us',
-          filter: 'id=eq.1'
-        },
-        (payload) => {
-          if (payload.new) {
-            setContactInfo({
-              email: payload.new.email || '',
-              phone_number: payload.new.phone_number || '',
-              address: payload.new.address || ''
-            });
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [fetchContactInfo]);
-
-  // Memoize the submit handler
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -329,11 +235,6 @@ export default function WhyUsPage() {
                   onSubmit={handleSubmit}
                   isSubmitting={isSubmitting}
                   formStatus={formStatus}
-                />
-
-                <ContactInfo 
-                  contactInfo={contactInfo}
-                  isLoading={isLoading}
                 />
               </div>
             </ScrollReveal>

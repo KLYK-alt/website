@@ -1,11 +1,35 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import styles from './page.module.css';
 import ScrollReveal from '../components/ScrollReveal';
 import { supabase } from '../../integrations/supabase/client';
 
 export default function ServicePage() {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('services')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+        setServices(data);
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
   return (
     <div className={styles.container}>
       <ScrollReveal>
@@ -21,100 +45,66 @@ export default function ServicePage() {
       </ScrollReveal>
 
       <div className={styles.servicesGrid}>
-        {/* Video Production */}
-        <ScrollReveal delay={0}>
-          <section className={`${styles.serviceCard} ${styles.videoProductionCard}`}>
-            <div className={styles.serviceIcon}>
-              <i className="bi bi-camera-video"></i>
-            </div>
-            <h2>EV Training Video Production</h2>
-            <p className={styles.tagline}>On-Trend | Engaging | Industry-Relevant</p>
-            <p className={styles.description}>
-              Professionally produced short and long-form videos that simplify complex EV concepts and captivate learners.
-            </p>
-            <ul className={styles.features}>
-              <li>Concept to creation</li>
-              <li>Voiceover and music sync</li>
-              <li>Dynamic editing and effects</li>
-            </ul>
-          </section>
-        </ScrollReveal>
-
-        {/* Curriculum Development */}
-        <ScrollReveal delay={100}>
-          <section className={`${styles.serviceCard} ${styles.curriculumCard}`}>
-            <div className={styles.serviceIcon}>
-              <i className="bi bi-book"></i>
-            </div>
-            <h2>Curriculum & Module Development</h2>
-            <p className={styles.tagline}>End-to-End Training Design for EV Systems</p>
-            <p className={styles.description}>
-              Structured and modular training programs covering EV fundamentals, components, maintenance, and diagnostics.
-            </p>
-            <ul className={styles.features}>
-              <li>Aligned with industry standards</li>
-              <li>Instructor guides and learner manuals</li>
-              <li>Assessment tools included</li>
-            </ul>
-          </section>
-        </ScrollReveal>
-
-        {/* Online Learning */}
-        <ScrollReveal delay={200}>
-          <section className={`${styles.serviceCard} ${styles.evLearningCard}`}>
-            <div className={styles.serviceIcon}>
-              <i className="bi bi-laptop"></i>
-            </div>
-            <h2>Online EV Learning Content</h2>
-            <p className={styles.tagline}>Platform-Ready | Interactive | Scalable</p>
-            <p className={styles.description}>
-              Digital courses and e-learning modules designed for maximum learner engagement.
-            </p>
-            <ul className={styles.features}>
-              <li>HD explainer videos & animations</li>
-              <li>Quizzes and hands-on assignments</li>
-            </ul>
-          </section>
-        </ScrollReveal>
-
-        {/* Corporate Training */}
-        <ScrollReveal delay={300}>
-          <section className={`${styles.serviceCard} ${styles.corporateTrainingCard}`}>
-            <div className={styles.serviceIcon}>
-              <i className="bi bi-building"></i>
-            </div>
-            <h2>Corporate & Institutional Training Delivery</h2>
-            <p className={styles.tagline}>Offline or Hybrid | Workshops | Custom Programs</p>
-            <p className={styles.description}>
-              Instructor-led programs delivered at your facility or ours, with real-world equipment and live demonstrations.
-            </p>
-            <ul className={styles.features}>
-              <li>Custom scheduling</li>
-              <li>Certification support</li>
-              <li>Hands-on learning focus</li>
-            </ul>
-          </section>
-        </ScrollReveal>
-
-        {/* Technical Documentation */}
-        <ScrollReveal delay={400}>
-          <section className={`${styles.serviceCard} ${styles.technicalDocsCard}`}>
-            <div className={styles.serviceIcon}>
-              <i className="bi bi-file-earmark-text"></i>
-            </div>
-            <h2>Technical Documentation & Visual Aids</h2>
-            <p className={styles.tagline}>EV Manuals | SOPs | Infographics</p>
-            <p className={styles.description}>
-              Clear, precise technical documents and visuals that enhance learner comprehension and practical application.
-            </p>
-            <ul className={styles.features}>
-              <li>Circuit diagrams and flowcharts</li>
-              <li>Maintenance checklists</li>
-              <li>Troubleshooting guides</li>
-            </ul>
-          </section>
-        </ScrollReveal>
+        {loading ? (
+          <div className={styles.loading}>Loading services...</div>
+        ) : services.length === 0 ? (
+          <div className={styles.noServices}>No services available at the moment.</div>
+        ) : (
+          services.map((service, index) => (
+            <ScrollReveal key={service.id} delay={index * 100}>
+              <section className={styles.serviceCard}>
+                {service.image_url && (
+                  <div className={styles.serviceImage}>
+                    <Image
+                      src={service.image_url}
+                      alt={service.title}
+                      width={300}
+                      height={200}
+                      className={styles.image}
+                    />
+                  </div>
+                )}
+                <div className={styles.serviceIcon}>
+                  <i className={`bi bi-${getServiceIcon(service.keywords)}`}></i>
+                </div>
+                <h2>{service.title}</h2>
+                <p className={styles.tagline}>{service.keywords.join(' | ')}</p>
+                <p className={styles.description}>
+                  {service.short_description}
+                </p>
+                <ul className={styles.features}>
+                  {service.bullet_points.map((point, i) => (
+                    <li key={i}>{point}</li>
+                  ))}
+                </ul>
+              </section>
+            </ScrollReveal>
+          ))
+        )}
       </div>
     </div>
   );
+}
+
+// Helper function to determine icon based on keywords
+function getServiceIcon(keywords) {
+  const keywordToIcon = {
+    'video': 'camera-video',
+    'curriculum': 'book',
+    'online': 'laptop',
+    'corporate': 'building',
+    'documentation': 'file-earmark-text',
+    'training': 'mortarboard',
+    'workshop': 'tools',
+    'certification': 'award',
+    'assessment': 'clipboard-check',
+    'consulting': 'people'
+  };
+
+  for (const keyword of keywords) {
+    const icon = keywordToIcon[keyword.toLowerCase()];
+    if (icon) return icon;
+  }
+
+  return 'gear'; // Default icon
 } 

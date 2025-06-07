@@ -36,6 +36,8 @@ export default function Home() {
   const [loadingTrainings, setLoadingTrainings] = useState(true);
   const [formStatus, setFormStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [faqs, setFaqs] = useState([]);
+  const [loadingFaqs, setLoadingFaqs] = useState(true);
 
   const handleOpenModal = (e) => {
     e.preventDefault();
@@ -160,6 +162,26 @@ export default function Home() {
       fetchUpcomingTrainings();
     }
   }, [showTrainingModal]);
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('faqs')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+        setFaqs(data);
+      } catch (error) {
+        console.error('Error fetching FAQs:', error);
+      } finally {
+        setLoadingFaqs(false);
+      }
+    };
+
+    fetchFaqs();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -319,28 +341,65 @@ export default function Home() {
       <section className={styles.portfolioSection}>
         <ScrollReveal>
           <h2>Our Work</h2>
+          <p className={styles.sectionDescription}>
+            Discover how we're shaping the future of EV technology through comprehensive training and innovative solutions.
+          </p>
         </ScrollReveal>
         <div className={styles.portfolioGrid}>
           {[
-            { title: "EV Training Program", icon: "bi-car-front" },
-            { title: "Corporate Workshops", icon: "bi-building" },
-            { title: "Technical Documentation", icon: "bi-file-text" },
-            { title: "Online Learning Platform", icon: "bi-laptop" }
+            { 
+              title: "EV Training Program",
+              icon: "bi-car-front",
+              description: "Comprehensive training covering EV fundamentals, advanced diagnostics, and practical hands-on experience with real EV components.",
+              features: ["Live interactive sessions", "Expert-led workshops", "Industry-standard certification"]
+            },
+            { 
+              title: "Corporate Workshops",
+              icon: "bi-building",
+              description: "Tailored training programs for organizations looking to upskill their workforce in EV technology and maintenance.",
+              features: ["Customized curriculum", "On-site training", "Team building exercises"]
+            },
+            { 
+              title: "Technical Documentation",
+              icon: "bi-file-text",
+              description: "Detailed technical guides and documentation for EV systems, maintenance procedures, and troubleshooting.",
+              features: ["Step-by-step guides", "Visual aids", "Regular updates"]
+            },
+            { 
+              title: "Online Learning Platform",
+              icon: "bi-laptop",
+              description: "Interactive online courses and resources for self-paced learning in EV technology.",
+              features: ["Video tutorials", "Practice exercises", "Progress tracking"]
+            }
           ].map((item, index) => (
             <motion.div 
               key={index}
               className={styles.portfolioItem}
-              whileHover={{ scale: 1.05 }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className={styles.portfolioIcon}>
                 <i className={`bi ${item.icon}`}></i>
               </div>
+              <div className={styles.portfolioContent}>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <ul className={styles.featureList}>
+                  {item.features.map((feature, idx) => (
+                    <li key={idx}>
+                      <i className="bi bi-check-circle-fill"></i>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <div className={styles.portfolioOverlay}>
                 <h3>{item.title}</h3>
-                <p></p>
+                <p>{item.description}</p>
+                <button className={styles.learnMoreBtn}>Learn More</button>
               </div>
             </motion.div>
           ))}
@@ -353,28 +412,40 @@ export default function Home() {
           <h2>Frequently Asked Questions</h2>
         </ScrollReveal>
         <ul className={styles.faqList}>
-          {faqData.map((faq, index) => (
-            <ScrollReveal delay={index * 100} key={index}>
-              <li className={styles.faqListItem}>
-                <button
-                  className={styles.faqQuestionBtn}
-                  onMouseEnter={() => setOpenFaq(index)}
-                  onMouseLeave={()=> setOpenFaq(index)}
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  aria-expanded={openFaq === index}
-                  aria-controls={`faq-answer-${index}`}
-                >
-                  <span>{faq.q}</span>
-                  <i className={`bi bi-chevron-${openFaq === index ? 'up' : 'down'} ${styles.faqIcon}`}></i>
-                </button>
-                {openFaq === index && (
-                  <div id={`faq-answer-${index}`} className={styles.faqAnswerList}>
-                    <p>{faq.a}</p>
-                  </div>
-                )}
-              </li>
-            </ScrollReveal>
-          ))}
+          {loadingFaqs ? (
+            <li className={styles.faqListItem}>
+              <p className={styles.loading}>Loading FAQs...</p>
+            </li>
+          ) : faqs.length === 0 ? (
+            <li className={styles.faqListItem}>
+              <p className={styles.noFaqs}>No FAQs available at the moment.</p>
+            </li>
+          ) : (
+            faqs.map((faq, index) => (
+              <ScrollReveal delay={index * 100} key={faq.id}>
+                <li className={styles.faqListItem}>
+                  <button
+                    className={styles.faqQuestionBtn}
+                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                    aria-expanded={openFaq === index}
+                    aria-controls={`faq-answer-${index}`}
+                  >
+                    <span>{faq.question}</span>
+                    <i className={`bi bi-chevron-${openFaq === index ? 'up' : 'down'} ${styles.faqIcon}`}></i>
+                  </button>
+                  {openFaq === index && (
+                    <div 
+                      id={`faq-answer-${index}`} 
+                      className={styles.faqAnswerList}
+                      style={{ display: openFaq === index ? 'block' : 'none' }}
+                    >
+                      <p>{faq.answer}</p>
+                    </div>
+                  )}
+                </li>
+              </ScrollReveal>
+            ))
+          )}
         </ul>
       </section>
 
