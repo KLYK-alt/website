@@ -5,7 +5,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #FCF5EE;
+  background-color: #ffffff;
 }
 
 .mainContent {
@@ -15,5 +15,5 @@
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
-  background-color: #FCF5EE;
+  background-color: #ffffff;
 }

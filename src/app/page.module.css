@@ -1,8 +1,8 @@
 .page {
   --gray-rgb: 0, 0, 0;
-  --background-start-rgb: 248, 250, 252;
-  --background-end-rgb: 241, 245, 249;
-  background: #FCF5EE;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+  background: #ffffff;
   min-height: 100vh;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
@@ -178,7 +178,7 @@ a.secondary {
   align-items: center;
   justify-content: center;
   padding: 6rem 2rem;
-  background: transparent;
+  background: #ffffff;
   min-height: 80vh;
   gap: 3rem;
 }
@@ -418,7 +418,7 @@ a.secondary {
 .trustSection {
   padding: 4rem 2rem;
   text-align: center;
-  background: transparent;
+  background: #ffffff;
 }
 
 .trustSection h2 {
@@ -473,7 +473,7 @@ a.secondary {
 .newsSection {
   position: relative;
   padding: 4rem 2rem;
-  background: transparent;
+  background: #ffffff;
   z-index: 1;
   overflow: hidden;
 }
@@ -765,7 +765,7 @@ a.secondary {
 .faqSection {
   position: relative;
   padding: 4rem 2rem;
-  background: rgba(255, 255, 255, 0.7);
+  background: #ffffff;
   border-radius: 2rem;
   margin: 2rem 0;
   z-index: 1;
@@ -948,7 +948,7 @@ a.secondary {
 /* Blog Section Styles */
 .blogSection {
   padding: 4rem 2rem;
-  background-color: transparent;
+  background-color: #ffffff;
 }
 
 .blogSection h2 {
@@ -1027,7 +1027,7 @@ a.secondary {
 /* Training Programs Section */
 .trainingSection {
   padding: 4rem 2rem;
-  background: transparent;
+  background: #ffffff;
   text-align: center;
 }
 
