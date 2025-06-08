@@ -342,7 +342,7 @@ export default function Home() {
         <ScrollReveal>
           <h2>Our Work</h2>
           <p className={styles.sectionDescription}>
-            Discover how we're shaping the future of EV technology through comprehensive training and innovative solutions.
+            Discover how we&apos;re shaping the future of EV technology through comprehensive training and innovative solutions.
           </p>
         </ScrollReveal>
         <div className={styles.portfolioGrid}>
