@@ -1,0 +1,162 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.registrationSection {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.registrationForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.registrationForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.registrationForm input,
+.registrationForm textarea {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.registrationForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.submitButton {
+  padding: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.formStatus {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.brochureSection {
+  text-align: center;
+  padding: 2rem;
+}
+
+.brochureSection h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.downloadButton {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.downloadButton:hover {
+  background-color: #218838;
+}
+
+.phoneInputContainer {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  background-color: #f9f9f9;
+}
+
+.phoneInput {
+  width: 100% !important;
+  height: 2.5rem !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 0.375rem !important;
+  padding-left: 3rem !important;
+  font-size: 1rem !important;
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+}
+
+.phoneInput::placeholder {
+  color: #a0a0a0 !important; /* Light grey color for placeholder */
+  opacity: 1; /* Ensure placeholder is visible */
+}
+
+.phoneInputButton {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-right: none !important;
+  border-radius: 0.375rem 0 0 0.375rem !important;
+}
+
+.phoneInputButton:hover {
+  background-color: var(--input-bg) !important;
+}
+
+.phoneInputButton:focus {
+  outline: none !important;
+} 

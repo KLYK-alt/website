@@ -1,0 +1,45 @@
+.featureCard {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+}
+
+.featureIcon {
+  width: 60px;
+  height: 60px;
+  background: #000048;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+}
+
+.featureIcon i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.featureCard h2 {
+  font-size: 1.5rem;
+  color: #2d3436;
+  margin-bottom: 1rem;
+  min-height: 3.6rem;
+}
+
+.featureCard p {
+  color: #636e72;
+  line-height: 1.6;
+  flex: 1;
+  margin: 0;
+} 
